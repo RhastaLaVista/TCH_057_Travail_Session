@@ -32,7 +32,7 @@
         android:layout_width="315dp"
         android:layout_height="35dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:fontFamily="@font/imprima"
         android:text="@string/destination_history"
         android:textColor="@color/white"
@@ -72,7 +72,7 @@
         android:layout_width="109dp"
         android:layout_height="30dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:background="@drawable/approved_border"
         app:layout_constraintStart_toStartOf="@+id/textView5"
         app:layout_constraintTop_toBottomOf="@+id/textView_history_prix"
@@ -93,5 +93,18 @@
         app:layout_constraintStart_toStartOf="@+id/textView10"
         app:layout_constraintTop_toTopOf="@+id/textView10"
         tools:ignore="TextSizeCheck,TextContrastCheck" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="166dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:backgroundTint="#4D899F"
+        android:fontFamily="@font/imprima"
+        android:text="Annuler"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/textView10"
+        app:layout_constraintTop_toBottomOf="@+id/textView_history_prix" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
