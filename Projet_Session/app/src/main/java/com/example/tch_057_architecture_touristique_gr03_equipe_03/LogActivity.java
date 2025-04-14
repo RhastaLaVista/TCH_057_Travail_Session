@@ -1,5 +1,6 @@
 package com.example.tch_057_architecture_touristique_gr03_equipe_03;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,14 +10,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.tch_057_architecture_touristique_gr03_equipe_03.daos.HttpJsonService;
+import com.example.tch_057_architecture_touristique_gr03_equipe_03.entite.Client;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.json.JSONException;
 
 import java.io.IOException;
 
@@ -24,13 +33,17 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class LogActivity extends AppCompatActivity implements View.OnClickListener {
+public class LogActivity extends AppCompatActivity {
 
     private static final String URL_POINT_ENTREE = "http://10.0.2.2:3000"; // Adresse serveur pour l'émulateur
     private static final String TAG = "MainActivity"; // Tag pour Logcat
     private Button loginButton;
     private EditText emailText, passwdText;
     private TextView reglinktxt;
+
+    ActivityResultLauncher<Intent> RegActivityLauncher;
+
+    ActivityResultLauncher<Intent> HomeActivityLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +55,46 @@ public class LogActivity extends AppCompatActivity implements View.OnClickListen
         emailText = findViewById(R.id.mailText);
         passwdText = findViewById(R.id.passText);
         reglinktxt = findViewById(R.id.regLinkText);
+
+        RegActivityLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult o) {
+                        if(o.getResultCode() == RESULT_OK){
+                            Toast.makeText(LogActivity.this,"Transferred to Register Activity",Toast.LENGTH_SHORT);
+                        }
+                    }
+                }
+        );
+
+        HomeActivityLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult o) {
+                        if(o.getResultCode() == RESULT_OK){
+                            Toast.makeText(LogActivity.this,"Transferred to Homepage",Toast.LENGTH_SHORT);
+                        }
+                    }
+                }
+        );
+
         loginButton = findViewById(R.id.loginbutton);
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                authenticate();
+            }
+        });
+
+        reglinktxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goRegister();
+            }
+        });
 
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -52,73 +104,32 @@ public class LogActivity extends AppCompatActivity implements View.OnClickListen
         });
     }
 
-    @Override
-    public void onClick(View v) {
+    private void authenticate(){
+        Intent intent = new Intent(this, HomeActivity.class);
+        String email = emailText.getText().toString().trim();
+        String pass = passwdText.getText().toString().trim();
+        HttpJsonService service = new HttpJsonService();
 
-    }
-
-    private boolean checkUsernames(){
-        if(1 == 1){
-            return true;
-        }else return false;
-
-    }
-    private boolean checkPassword(){
-        if(1 == 1){
-            return true;
-        } else return false;
-    }
-
-    private void fetchemails(){
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    OkHttpClient client = new OkHttpClient();
-                    Request request = new Request.Builder().url(URL_POINT_ENTREE + "/comptes").build();
-                    Response response = client.newCall(request).execute();
-
-                    if (!response.isSuccessful()) {
-                        Log.e(TAG, "Erreur HTTP : " + response.code());
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(LogActivity.this, "Erreur serveur : " + response.code(),
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                        return;
-                    }
-        // Reading Json Coming from HTTP request
-        String userJson = response.body().string();
-        Log.d(TAG,"Received data from JSONserver :" + userJson);
-
-        //Getting email addresses from JSON
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode emails = mapper.readTree(userJson);
-
-        mapper.configure(DeserializationFeature.USE_JAVA_ARRAY_FOR_JSON_ARRAY,true);
-
-
-        String emailList = emails.get("email").asText();
-
-
-        //Fetching only usernames for security
-
-                } catch (IOException e) {
-                    Log.e(TAG, "Network Error", e);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(LogActivity.this, "Connection error", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
+        try {
+            Client client = (Client) service.rechercherClient(email);
+            if(client.getMdp().equals(pass)){
+                HomeActivityLauncher.launch(intent);
             }
-        }).start();
 
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
     }
+
+    private void goRegister(){
+        Intent intent = new Intent(this, RegActivity.class);
+        RegActivityLauncher.launch(intent);
+    }
+
+
+
 
 
 }
