@@ -17,4 +17,7 @@
     <string name="destination_history">Destination</string>
     <string name="prix">Prix</string>
     <string name="_0">0</string>
+    <string name="retour_historique">Retour</string>
+    <string name="historique">Historique</string>
+    <string name="annuler">Annuler</string>
 </resources>
