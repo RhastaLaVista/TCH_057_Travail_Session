@@ -21,17 +21,10 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.tch_057_architecture_touristique_gr03_equipe_03.daos.HttpJsonService;
 import com.example.tch_057_architecture_touristique_gr03_equipe_03.entite.Client;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.json.JSONException;
 
 import java.io.IOException;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class LogActivity extends AppCompatActivity {
 
@@ -85,7 +78,7 @@ public class LogActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                authenticate();
+                    logInRequest();
             }
         });
 
@@ -104,32 +97,46 @@ public class LogActivity extends AppCompatActivity {
         });
     }
 
-    private void authenticate(){
-        Intent intent = new Intent(this, HomeActivity.class);
-        String email = emailText.getText().toString().trim();
-        String pass = passwdText.getText().toString().trim();
-        HttpJsonService service = new HttpJsonService();
 
-        try {
-            Client client = (Client) service.rechercherClient(email);
-            if(client.getMdp().equals(pass)){
-                HomeActivityLauncher.launch(intent);
-            }
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     private void goRegister(){
         Intent intent = new Intent(this, RegActivity.class);
         RegActivityLauncher.launch(intent);
     }
 
+    private void logInRequest(){
+        Intent intent = new Intent(this, HomeActivity.class);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    HttpJsonService service = new HttpJsonService();
+
+                    String email = emailText.getText().toString();
+                    String passwd = passwdText.getText().toString();
+
+                    Client client = (Client) service.rechercherClient(email);
+
+                    if(client.getMdp().equals(passwd)){
+                        intent.putExtra("ID_CLIENT",client.getId());
+                        HomeActivityLauncher.launch(intent);
+                    }else {Toast.makeText(LogActivity.this,"Mauvaise Mot de passe", Toast.LENGTH_SHORT).show();}
 
 
-
-
+                } catch (IOException | JSONException e) {
+                    Log.e(TAG, "Erreur réseau", e);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(LogActivity.this, "Erreur de connexion", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        }).start();
+    }
 }
+
+
+
+

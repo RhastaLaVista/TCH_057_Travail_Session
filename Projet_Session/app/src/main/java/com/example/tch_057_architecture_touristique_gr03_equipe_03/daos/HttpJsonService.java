@@ -16,7 +16,7 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 public class HttpJsonService {
-    private static final String URL_BASE = "http://10.0.2.2:3000/livres/";
+    private static final String URL_BASE = "http://10.0.2.2:3000/clients/";
 
     //is an array in case there are 2 similarly emailed accounts.
     //TODO: make sure only 1 account is fetched and that no others can exist with the same email.
