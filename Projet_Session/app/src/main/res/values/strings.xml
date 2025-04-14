@@ -17,4 +17,13 @@
     <string name="destination_history">Destination</string>
     <string name="prix">Prix</string>
     <string name="_0">0</string>
-</resources>
+
+    <string-array name="voyage_types">
+        <item>Aventure</item>
+        <item>Culturel</item>
+        <item>Famille</item>
+        <item>Romantique</item>
+        <item>Plage</item>
+    </string-array>
+
+    </resources>
