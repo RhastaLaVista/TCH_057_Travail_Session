@@ -33,18 +33,18 @@
         app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/loginbutton"
         android:layout_width="260dp"
         android:layout_height="70dp"
         android:text="Se connecter"
         android:textSize="32sp"
-        app:layout_constraintBottom_toTopOf="@+id/RegLinkText"
+        app:layout_constraintBottom_toTopOf="@+id/regLinkText"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="@+id/guideline5" />
 
     <TextView
-        android:id="@+id/RegLinkText"
+        android:id="@+id/regLinkText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Premiere fois? Inscrivez-vous!"
