@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/bg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/app___bg"
+        tools:ignore="ImageContrastCheck" />
+
+    <TextView
+        android:id="@+id/details_border"
+        android:layout_width="365dp"
+        android:layout_height="668dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/rounded_border"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="VisualLintOverlap" />
+
+    <TextView
+        android:id="@+id/detail_backgroung"
+        android:layout_width="341dp"
+        android:layout_height="644dp"
+        android:background="@drawable/rounded_rectangle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="55dp"
+        android:fontFamily="@font/imprima"
+        android:text="@string/titre"
+        android:textColor="#FDFDFD"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="TextContrastCheck" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:importantForAccessibility="no"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        tools:ignore="ImageContrastCheck"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/textView_description"
+        android:layout_width="300dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/imprima"
+        android:text="@string/description"
+        android:textColor="#FAF0F0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        tools:ignore="TextContrastCheck" />
+
+    <TextView
+        android:id="@+id/textView_destination"
+        android:layout_width="300dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/imprima"
+        android:text="@string/destination"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_description"
+        tools:ignore="TextContrastCheck" />
+
+    <TextView
+        android:id="@+id/textView_activite"
+        android:layout_width="298dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/imprima"
+        android:text="@string/activit"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_destination"
+        tools:ignore="TextContrastCheck" />
+
+    <TextView
+        android:id="@+id/textView_duree"
+        android:layout_width="301dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/imprima"
+        android:text="@string/duree"
+        android:textColor="#FFFEFE"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_activite"
+        tools:ignore="TextContrastCheck" />
+
+    <TextView
+        android:id="@+id/textView_prixPersonne"
+        android:layout_width="300dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/imprima"
+        android:text="@string/prix_par_personne"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_duree"
+        tools:ignore="TextContrastCheck" />
+
+    <TextView
+        android:id="@+id/textView_date"
+        android:layout_width="80dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="280dp"
+        android:fontFamily="@font/imprima"
+        android:text="@string/date"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/textView_place"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_prixPersonne"
+        tools:ignore="TextSizeCheck,TextContrastCheck" />
+
+    <TextView
+        android:id="@+id/textView_place"
+        android:layout_width="300dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/imprima"
+        android:text="Place disponible"
+        android:textColor="#FDFDFD"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dropdown_date"
+        tools:ignore="HardcodedText,TextContrastCheck" />
+
+    <TextView
+        android:id="@+id/textView_nbPersonne"
+        android:layout_width="134dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="225dp"
+        android:fontFamily="@font/imprima"
+        android:text="@string/nombre_de_personne"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/textView_prix"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_place"
+        tools:ignore="TextSizeCheck,TextContrastCheck" />
+
+    <TextView
+        android:id="@+id/textView_prix"
+        android:layout_width="300dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/imprima"
+        android:text="@string/prix_total"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.524"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dropdown_nbPersonne"
+        tools:ignore="TextContrastCheck" />
+
+    <Button
+        android:id="@+id/button_detail_retour"
+        android:layout_width="130dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginBottom="60dp"
+        android:backgroundTint="#4D899F"
+        android:fontFamily="@font/imprima"
+        android:text="@string/retour"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button_reserver"
+        android:layout_width="130dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginBottom="60dp"
+        android:backgroundTint="#4D899F"
+        android:fontFamily="@font/imprima"
+        android:text="@string/r_server"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Spinner
+        android:id="@+id/dropdown_date"
+        android:layout_width="217dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="5dp"
+        android:background="#4D899F"
+        app:layout_constraintStart_toEndOf="@+id/textView_date"
+        app:layout_constraintTop_toBottomOf="@+id/textView_prixPersonne" />
+
+    <Spinner
+        android:id="@+id/dropdown_nbPersonne"
+        android:layout_width="162dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:background="#4D899F"
+        app:layout_constraintStart_toEndOf="@+id/textView_nbPersonne"
+        app:layout_constraintTop_toBottomOf="@+id/textView_place" />
+</androidx.constraintlayout.widget.ConstraintLayout>

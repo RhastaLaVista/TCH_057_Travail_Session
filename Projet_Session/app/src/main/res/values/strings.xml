@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">tch_057_architecture_touristique_gr03_Equipe_03</string>
+    <string name="duree">Durée</string>
+    <string name="destination">Destination</string>
+    <string name="nombre_de_personne">Nombre de personne</string>
+    <string name="retour">Retour</string>
+    <string name="r_server">Réserver</string>
+    <string name="bg">bg</string>
+    <string name="titre">Titre</string>
+    <string name="activit">Activité</string>
+    <string name="date">Date</string>
+    <string name="description">Description</string>
+    <string name="prix_total">Prix total</string>
+    <string name="prix_par_personne">Prix par personne</string>
+    <string name="date_history">Date</string>
+    <string name="approved">Approved</string>
+    <string name="destination_history">Destination</string>
+    <string name="prix">Prix</string>
 </resources>
