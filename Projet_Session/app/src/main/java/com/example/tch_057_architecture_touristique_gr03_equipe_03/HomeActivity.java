@@ -44,6 +44,7 @@ import android.widget.AdapterView;
 public class HomeActivity extends AppCompatActivity {
     private static final String URL_POINT_ENTREE = "http://10.0.2.2:3000"; // Adresse serveur pour l'émulateur
     private static final String TAG = "MainActivity"; // Tag pour Logcat
+    private static final String[] typesVoyages= {"All", "Aventure", "Culturel", "Famille", "Romantique","Plage", "Nature"};
     SeekBar seekBar;
     TextView budgetText;
     private int idClient;
@@ -84,13 +85,12 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 currentText=newText;
-                filteredList(currentText,budget,spinnerTypeVoyage.getSelectedItem().toString());
+                filteredList(currentText,budget,typesVoyages[spinnerTypeVoyage.getSelectedItemPosition()]);
                 return false;
             }
         });
 
         spinnerTypeVoyage = findViewById(R.id.spinnerTypeVoyage);
-        buttonDate = findViewById(R.id.buttonDate);
         textSelectedDate = findViewById(R.id.textSelectedDate);
 
         seekBar = (SeekBar) findViewById(R.id.seekBarBudget);
@@ -112,7 +112,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 budgetText.setText("Budget: " + progress + "$");
                 budget=progress;
-                filteredList(currentText,budget,spinnerTypeVoyage.getSelectedItem().toString());
+                filteredList(currentText,budget,typesVoyages[spinnerTypeVoyage.getSelectedItemPosition()]);
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {}
@@ -124,7 +124,6 @@ public class HomeActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.voyage_types, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerTypeVoyage.setAdapter(adapter);
-
 
 
 //        String[] dates = intent.getStringArrayExtra("dates");
@@ -190,9 +189,7 @@ public class HomeActivity extends AppCompatActivity {
         List<Voyage> filteredList = new ArrayList<>();
         for(Voyage voyage:voyageList){
             if(voyage.getNom_voyage().toLowerCase().contains(text.toLowerCase())&&budget>=voyage.getPrix()){
-                if(type.equals(voyage.getType_de_voyage())||type.equals("All")) {
                     filteredList.add(voyage);
-                }
             }
         }
         voyageAdapter.updateVoyages(filteredList);

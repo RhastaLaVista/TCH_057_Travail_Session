@@ -60,13 +60,6 @@
                     android:layout_marginTop="8dp"
                     android:minHeight="48dp" />
 
-                <Button
-                    android:id="@+id/buttonDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Choisir une date de départ" />
-
                 <TextView
                     android:id="@+id/textSelectedDate"
                     android:layout_width="match_parent"
