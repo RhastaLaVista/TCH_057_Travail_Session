@@ -7,13 +7,27 @@
     android:layout_height="match_parent"
     tools:context=".LogActivity">
 
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="893dp"
+        android:layout_height="1023dp"
+        android:rotation="270"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/colorful_cool_sky_illustration_gradient_background_free_vector" />
+
     <EditText
         android:id="@+id/passText"
         android:layout_width="280dp"
         android:layout_height="50dp"
         android:ems="10"
+        android:fontFamily="@font/imprima"
         android:inputType="text"
         android:text="Mot de passe"
+        android:textColor="@color/white"
+        android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.375"
@@ -25,8 +39,11 @@
         android:layout_width="280dp"
         android:layout_height="50dp"
         android:ems="10"
+        android:fontFamily="@font/imprima"
         android:inputType="text"
         android:text="Courriel"
+        android:textColor="@color/white"
+        android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="@+id/guideline"
@@ -36,6 +53,8 @@
         android:id="@+id/loginbutton"
         android:layout_width="260dp"
         android:layout_height="70dp"
+        android:backgroundTint="#006692"
+        android:fontFamily="@font/imprima"
         android:text="Se connecter"
         android:textSize="32sp"
         app:layout_constraintBottom_toTopOf="@+id/regLinkText"
@@ -47,10 +66,14 @@
         android:id="@+id/regLinkText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/imprima"
         android:text="Premiere fois? Inscrivez-vous!"
+        android:textColor="@color/white"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintStart_toStartOf="@+id/guideline" />
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        tools:textColor="#006692" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
@@ -86,4 +109,15 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.55" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/regLinkText"
+        app:srcCompat="@drawable/cloud" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
