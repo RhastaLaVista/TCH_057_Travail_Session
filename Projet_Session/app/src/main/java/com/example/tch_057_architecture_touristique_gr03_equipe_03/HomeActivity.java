@@ -13,7 +13,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.*;
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -42,8 +45,7 @@ public class HomeActivity extends AppCompatActivity {
     SeekBar seekBar;
     TextView budgetText;
 
-    private String idClient;
-    private ActivityResultLauncher<Intent> activityLauncher;
+    private int idClient;
     private Intent intent = getIntent();
     private RecyclerView recyclerView;
     private VoyageAdapter voyageAdapter;
@@ -53,7 +55,8 @@ public class HomeActivity extends AppCompatActivity {
     TextView  textSelectedDate;
     Spinner spinnerTypeVoyage;
     Button buttonDate;
-
+    private ActivityResultLauncher<Intent> detailActivityLauncher;
+    private ActivityResultLauncher<Intent> logActivityLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +64,9 @@ public class HomeActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home);
 
-        if (intent.getExtras() != null) {
-            idClient=intent.getStringExtra("client");
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            idClient= extras.getInt("client");
         }
 
         fetchVoyages();
@@ -104,8 +108,6 @@ public class HomeActivity extends AppCompatActivity {
         spinnerTypeVoyage.setAdapter(adapter);
 
 
-//
-//
 //        String[] dates = intent.getStringArrayExtra("dates");
 //        int[] places = intent.getIntArrayExtra("places");
 
@@ -124,7 +126,7 @@ public class HomeActivity extends AppCompatActivity {
             intent.putExtra("dates",voyage.getDate());
             intent.putExtra("places",voyage.getNb_places());
 
-            intent.putExtra("activite",voyage.getActivites());
+            intent.putExtra("activite",voyage.getactivites_incluses());
             intent.putExtra("image", voyage.getImage_url());
             intent.putExtra("type", voyage.getType_de_voyage());
 
@@ -140,8 +142,31 @@ public class HomeActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-    }
 
+        detailActivityLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == RESULT_OK) {
+                            Toast.makeText(HomeActivity.this, "Détails fermés", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+        );
+        logActivityLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == RESULT_OK) {
+                            Toast.makeText(HomeActivity.this, "Login fermés", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+        );
+
+    }
 
 
     private void fetchVoyages() {

@@ -18,7 +18,7 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 public class HttpJsonService {
-    private static final String URL_BASE = "http://10.0.2.2:3000/livres/";
+    private static final String URL_BASE = "http://10.0.2.2:3000/";
     private static final String VOYAGES_URL = URL_BASE+"voyages";
     private OkHttpClient client = new OkHttpClient();
 
