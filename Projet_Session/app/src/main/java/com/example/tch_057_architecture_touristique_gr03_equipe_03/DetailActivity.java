@@ -48,6 +48,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private ContentValues donnees;
     private Intent intent = getIntent();
     private int id = 0;
+    private int customerId;
 
     @SuppressLint({"MissingInflatedId", "SetTextI18n"})
     @Override
@@ -82,6 +83,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
         b_retour.setOnClickListener(this);
         if (intent.getExtras() != null) {
+            customerId = intent.getIntExtra("client", 0);
             tv_Titre.setText(intent.getStringExtra("titre"));
             tv_description.setText(intent.getStringExtra("description"));
             tv_destination.setText(intent.getStringExtra("destination"));
@@ -90,6 +92,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
             tv_prixPersonne.setText("Prix par personne : " + intent.getIntExtra("prixPersonne", 0));
             tv_prixTotal.setText("Prix total : " + intent.getIntExtra("prixPersonne", 0) * Integer.parseInt(String.valueOf(et_nbPersonne.getText())));
             String imageUrl = intent.getStringExtra("image");
+
             Glide.with(this).load(imageUrl).apply(new RequestOptions()).into(img);
 
             String[] dates = intent.getStringArrayExtra("dates");
@@ -123,9 +126,11 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
             donnees.put(HistoriqueContrat.Colonnes.DATE, (String) s_date.getSelectedItem());
             donnees.put(HistoriqueContrat.Colonnes.PRIX,intent.getIntExtra("prixPersonne", 0) * Integer.parseInt(String.valueOf(et_nbPersonne.getText())));
             donnees.put(HistoriqueContrat.Colonnes.STATUT,"Approved");
+            donnees.put(HistoriqueContrat.Colonnes.CUSTOMERID, customerId);
 
             db.insert(HistoriqueContrat.TABLE_NAME, null, donnees);
             id++;
+
         }
     }
 
