@@ -17,9 +17,11 @@ import java.util.List;
 public class VoyageAdapter extends RecyclerView.Adapter<VoyageAdapter.VoyageViewHolder> {
 
     private List<Voyage> voyages;
+    private OnVoyageClickListener listener;
 
-    public VoyageAdapter(List<Voyage> voyages) {
+    public VoyageAdapter(List<Voyage> voyages, OnVoyageClickListener listener) {
         this.voyages = voyages;
+        this.listener = listener;
     }
 
     public void updateVoyages(List<Voyage> newVoyages) {
@@ -43,10 +45,13 @@ public class VoyageAdapter extends RecyclerView.Adapter<VoyageAdapter.VoyageView
         holder.dest.setText(v.getDestination());
         holder.prix.setText(v.getPrix() + "$");
 
+
         // Optionally load image
         Glide.with(holder.itemView.getContext())
                 .load(v.getImage_url())
                 .into(holder.img);
+
+        holder.itemView.setOnClickListener(view -> listener.onVoyageClick(v));
     }
 
     @Override
@@ -67,4 +72,8 @@ public class VoyageAdapter extends RecyclerView.Adapter<VoyageAdapter.VoyageView
             img = itemView.findViewById(R.id.voyage_image);
         }
     }
+    public interface OnVoyageClickListener {
+        void onVoyageClick(Voyage voyage);
+    }
+
 }

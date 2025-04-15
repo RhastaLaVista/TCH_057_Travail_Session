@@ -20,7 +20,6 @@
     <string name="retour_historique">Retour</string>
     <string name="historique">Historique</string>
     <string name="annuler">Annuler</string>
-</resources>
 
     <string-array name="voyage_types">
         <item>Aventure</item>
@@ -30,4 +29,4 @@
         <item>Plage</item>
     </string-array>
 
-    </resources>
+</resources>

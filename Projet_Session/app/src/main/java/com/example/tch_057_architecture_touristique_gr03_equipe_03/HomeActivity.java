@@ -1,5 +1,6 @@
 package com.example.tch_057_architecture_touristique_gr03_equipe_03;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -12,12 +13,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.*;
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.tch_057_architecture_touristique_gr03_equipe_03.daos.HttpJsonService;
 import com.example.tch_057_architecture_touristique_gr03_equipe_03.entite.Voyage;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -38,6 +42,9 @@ public class HomeActivity extends AppCompatActivity {
     SeekBar seekBar;
     TextView budgetText;
 
+    private String idClient;
+    private ActivityResultLauncher<Intent> activityLauncher;
+    private Intent intent = getIntent();
     private RecyclerView recyclerView;
     private VoyageAdapter voyageAdapter;
     private List<Voyage> voyageList = new ArrayList<>();
@@ -53,6 +60,12 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home);
+
+        if (intent.getExtras() != null) {
+            idClient=intent.getStringExtra("client");
+        }
+
+        fetchVoyages();
 
         recyclerView = findViewById(R.id.recyclerVoyages);
         editDestination = findViewById(R.id.editDestination);
@@ -83,8 +96,29 @@ public class HomeActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerTypeVoyage.setAdapter(adapter);
 
+//        tv_activite.setText("Activités : " + intent.getStringExtra("activite"));
 
-        voyageAdapter = new VoyageAdapter(voyageList);
+//        tv_duree.setText("Durée : " + intent.getIntExtra("duree", 0));
+//
+//        String[] dates = intent.getStringArrayExtra("dates");
+//        int[] places = intent.getIntArrayExtra("places");
+
+
+        voyageAdapter = new VoyageAdapter(voyageList, voyage -> {
+            Intent intent = new Intent(HomeActivity.this, DetailActivity.class);
+            intent.putExtra("client",idClient);
+            intent.putExtra("id", voyage.getId());
+            intent.putExtra("titre", voyage.getNom_voyage());
+            intent.putExtra("description", voyage.getDescription());
+            intent.putExtra("destination",voyage.getDestination());
+
+            intent.putExtra("prixPersonne", voyage.getPrix());
+
+            intent.putExtra("image", voyage.getImage_url());
+            intent.putExtra("type", voyage.getType_de_voyage());
+            startActivity(intent);
+        });
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(voyageAdapter);
 
@@ -96,8 +130,7 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-
-
+    
 
     private void fetchVoyages() {
         new Thread(() -> {

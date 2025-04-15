@@ -18,6 +18,7 @@ public class Voyage {
         this.destination = destination;
         this.image_url = image_url;
         this.type_de_voyage = type_de_voyage;
+
     }
     public Voyage(){
 
