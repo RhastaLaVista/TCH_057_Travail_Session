@@ -64,4 +64,12 @@ public class DbUtil extends SQLiteOpenHelper {
         cursor.close();
         return historiqueList;
     }
+
+    public List<Historique> setApproveStatus(int userID, int voyageID) {
+        List<Historique> historiqueList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("UPDATE Historique SET STATUT = 'Annulé' WHERE CUSTOMERID = " + userID + " AND ID = " + voyageID, null);
+        cursor.close();
+        return historiqueList;
+    }
 }

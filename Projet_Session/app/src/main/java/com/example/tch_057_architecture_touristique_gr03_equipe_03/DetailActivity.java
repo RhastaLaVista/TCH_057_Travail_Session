@@ -130,6 +130,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
             db.insert(HistoriqueContrat.TABLE_NAME, null, donnees);
             id++;
+
         }
     }
 

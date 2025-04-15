@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,6 +25,7 @@ public class HistoryAdapter extends ArrayAdapter<Historique> {
     private Context context;
     private int viewResourceId;
     private Resources ressources;
+
     public HistoryAdapter(@NonNull Context context, int viewResourceId, @NonNull List<Historique> historiqueList) {
         super(context, viewResourceId, historiqueList);
         this.context = context;
@@ -31,6 +33,7 @@ public class HistoryAdapter extends ArrayAdapter<Historique> {
         this.ressources = context.getResources();
         this.historiqueList = historiqueList;
     }
+
     @Override
     public int getCount() {
         return this.historiqueList.size();
@@ -38,7 +41,7 @@ public class HistoryAdapter extends ArrayAdapter<Historique> {
 
     @SuppressLint("SetTextI18n")
     @NonNull
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent){
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view = convertView;
         if (view == null) {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.
@@ -47,7 +50,7 @@ public class HistoryAdapter extends ArrayAdapter<Historique> {
         }
         final Historique historique = this.historiqueList.get(position);
 
-        if (historique != null){
+        if (historique != null) {
             String destination = historique.getDestination();
             String date = historique.getDate();
             int prix = historique.getPrix();
@@ -57,21 +60,27 @@ public class HistoryAdapter extends ArrayAdapter<Historique> {
             final TextView tvDate = view.findViewById(R.id.textview_history_date);
             final TextView tvPrix = view.findViewById(R.id.textView_history_prix);
             final TextView tvApprove = view.findViewById(R.id.textview_history_approved);
+            final Button b_annuler = view.findViewById(R.id.button_annuler);
 
             tvDestination.setText(destination);
             tvDate.setText(date);
             tvPrix.setText("Prix total : " + prix);
             tvApprove.setText(approve);
 
-            if (approve.equals("Annuler")){
-                tvApprove.setTextColor(Color.rgb(114,76,76));
+            if (approve.equals("Annuler")) {
+                tvApprove.setTextColor(Color.rgb(114, 76, 76));
                 tvApprove.setBackgroundResource(R.drawable.cancelled_background);
-            }
-            else if (approve.equals("Approve")){
-                tvApprove.setTextColor(Color.rgb(77,114,76));
+            } else if (approve.equals("Approve")) {
+                tvApprove.setTextColor(Color.rgb(77, 114, 76));
                 tvApprove.setBackgroundResource(R.drawable.approved_background);
             }
 
+            b_annuler.setOnClickListener(v -> {
+                tvApprove.setTextColor(Color.rgb(114, 76, 76));
+                tvApprove.setBackgroundResource(R.drawable.cancelled_background);
+                tvApprove.setText("Annuler");
+                historiqueList.get(position).setApprove("Annulé");
+            });
         }
         return view;
     }
