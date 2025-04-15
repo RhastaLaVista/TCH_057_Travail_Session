@@ -32,7 +32,7 @@
         android:layout_width="315dp"
         android:layout_height="35dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:fontFamily="@font/imprima"
         android:text="@string/destination_history"
         android:textColor="@color/white"
@@ -42,7 +42,7 @@
         tools:ignore="TextSizeCheck,TextContrastCheck" />
 
     <TextView
-        android:id="@+id/textView7"
+        android:id="@+id/textview_history_date"
         android:layout_width="311dp"
         android:layout_height="23dp"
         android:layout_marginStart="30dp"
@@ -64,34 +64,36 @@
         android:text="@string/prix"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/textView7"
+        app:layout_constraintTop_toBottomOf="@+id/textview_history_date"
         tools:ignore="TextSizeCheck,TextContrastCheck" />
 
     <TextView
-        android:id="@+id/textView10"
-        android:layout_width="109dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/approved_border"
-        app:layout_constraintStart_toStartOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/textView_history_prix"
-        tools:ignore="VisualLintOverlap" />
-
-    <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/textview_history_approved"
         android:layout_width="97dp"
         android:layout_height="24dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="30dp"
         android:background="@drawable/approved_background"
         android:fontFamily="@font/imprima"
         android:text="@string/approved"
         android:textAlignment="center"
         android:textColor="#4D724C"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView10"
-        app:layout_constraintEnd_toEndOf="@+id/textView10"
-        app:layout_constraintStart_toStartOf="@+id/textView10"
-        app:layout_constraintTop_toTopOf="@+id/textView10"
+        app:layout_constraintEnd_toStartOf="@+id/button_annuler"
+        app:layout_constraintTop_toBottomOf="@+id/textView_history_prix"
         tools:ignore="TextSizeCheck,TextContrastCheck" />
+
+    <Button
+        android:id="@+id/button_annuler"
+        android:layout_width="166dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="30dp"
+        android:backgroundTint="#4D899F"
+        android:fontFamily="@font/imprima"
+        android:text="@string/annuler"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_history_prix" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

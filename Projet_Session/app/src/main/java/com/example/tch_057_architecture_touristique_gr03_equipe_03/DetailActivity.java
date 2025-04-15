@@ -1,8 +1,10 @@
 package com.example.tch_057_architecture_touristique_gr03_equipe_03;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,6 +25,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.tch_057_architecture_touristique_gr03_equipe_03.jsonContent.DbUtil;
+import com.example.tch_057_architecture_touristique_gr03_equipe_03.jsonContent.HistoriqueContrat;
 
 import java.util.HashMap;
 
@@ -39,6 +43,13 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private EditText et_nbPersonne;
     private HashMap<String, Integer> dateDispo = null;
 
+    private DbUtil dbUtil;
+    private SQLiteDatabase db;
+    private ContentValues donnees;
+    private Intent intent = getIntent();
+    private int id = 0;
+    private int customerId;
+
     @SuppressLint({"MissingInflatedId", "SetTextI18n"})
     @Override
 
@@ -46,6 +57,10 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_details);
+
+        dbUtil = new DbUtil(this);
+        db = dbUtil.getWritableDatabase();
+        donnees = new ContentValues();
 
         tv_Titre = findViewById(R.id.textView_detail_titre);
         tv_description = findViewById(R.id.textView_description);
@@ -67,8 +82,8 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         b_retour = findViewById(R.id.button_detail_retour);
 
         b_retour.setOnClickListener(this);
-        Intent intent = getIntent();
         if (intent.getExtras() != null) {
+            customerId = intent.getIntExtra("client", 0);
             tv_Titre.setText(intent.getStringExtra("titre"));
             tv_description.setText(intent.getStringExtra("description"));
             tv_destination.setText(intent.getStringExtra("destination"));
@@ -77,6 +92,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
             tv_prixPersonne.setText("Prix par personne : " + intent.getIntExtra("prixPersonne", 0));
             tv_prixTotal.setText("Prix total : " + intent.getIntExtra("prixPersonne", 0) * Integer.parseInt(String.valueOf(et_nbPersonne.getText())));
             String imageUrl = intent.getStringExtra("image");
+
             Glide.with(this).load(imageUrl).apply(new RequestOptions()).into(img);
 
             String[] dates = intent.getStringArrayExtra("dates");
@@ -103,6 +119,18 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         if (v == b_retour) {
             Intent intent = new Intent(this, HomeActivity.class);
             activityLauncher.launch(intent);
+        }
+        else if (v == b_reserver){
+            donnees.put(HistoriqueContrat.Colonnes.ID,id);
+            donnees.put(HistoriqueContrat.Colonnes.DESTINATION,intent.getStringExtra("destination"));
+            donnees.put(HistoriqueContrat.Colonnes.DATE, (String) s_date.getSelectedItem());
+            donnees.put(HistoriqueContrat.Colonnes.PRIX,intent.getIntExtra("prixPersonne", 0) * Integer.parseInt(String.valueOf(et_nbPersonne.getText())));
+            donnees.put(HistoriqueContrat.Colonnes.STATUT,"Approved");
+            donnees.put(HistoriqueContrat.Colonnes.CUSTOMERID, customerId);
+
+            db.insert(HistoriqueContrat.TABLE_NAME, null, donnees);
+            id++;
+
         }
     }
 
