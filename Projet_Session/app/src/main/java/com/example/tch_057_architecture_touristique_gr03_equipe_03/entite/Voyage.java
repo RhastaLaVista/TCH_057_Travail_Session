@@ -12,14 +12,16 @@ public class Voyage {
     int duree_jours;
     String[] date;
     int[] nb_places;
-    String activites;
+    String activites_incluses;
+    Object[] trips;
 
     public Voyage(){
 
     }
 
-    public Voyage(int id, String nom_voyage, String description, int prix, String destination, String image_url, String type_de_voyage, int duree_jours, String[] date, int[] nb_places, String activites) {
+    public Voyage(Object[] trips, int id, String nom_voyage, String description, int prix, String destination, String image_url, String type_de_voyage, int duree_jours, String[] date, int[] nb_places, String activites_incluses) {
         this.id = id;
+        this.trips=trips;
         this.nom_voyage = nom_voyage;
         this.description = description;
         this.prix = prix;
@@ -29,9 +31,14 @@ public class Voyage {
         this.duree_jours = duree_jours;
         this.date = date;
         this.nb_places = nb_places;
-        this.activites = activites;
+        this.activites_incluses = activites_incluses;
+        setValues();
     }
+    public void setValues(){
+        for (Object trip:trips){
 
+        }
+    }
     public int getId() {
         return id;
     }
@@ -112,11 +119,19 @@ public class Voyage {
         this.nb_places = nb_places;
     }
 
-    public String getActivites() {
-        return activites;
+    public String getactivites_incluses() {
+        return activites_incluses;
     }
 
-    public void setActivites(String activites) {
-        this.activites = activites;
+    public void setactivites_incluses(String activites_incluses) {
+        this.activites_incluses = activites_incluses;
+    }
+
+    public Object[] getTrips() {
+        return trips;
+    }
+
+    public void setTrips(Object[] trips) {
+        this.trips = trips;
     }
 }
