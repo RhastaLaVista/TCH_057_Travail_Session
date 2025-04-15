@@ -34,9 +34,9 @@ public class HttpJsonService {
         if (responseBody != null) {
             String jsonStr = responseBody.string();
             ObjectMapper mapper = new ObjectMapper();
-            if(Arrays.asList((mapper.readValue(jsonStr, Client[].class))).size() <= 1) {
+
                 return Arrays.asList(mapper.readValue(jsonStr, Client[].class));
-            }
+
         }
         return null;
     }

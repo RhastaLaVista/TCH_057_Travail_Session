@@ -21,15 +21,22 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.tch_057_architecture_touristique_gr03_equipe_03.daos.HttpJsonService;
 import com.example.tch_057_architecture_touristique_gr03_equipe_03.entite.Client;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.Arrays;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public class LogActivity extends AppCompatActivity {
 
     private static final String URL_POINT_ENTREE = "http://10.0.2.2:3000"; // Adresse serveur pour l'émulateur
-    private static final String TAG = "MainActivity"; // Tag pour Logcat
+    private static final String TAG = "LogActivity"; // Tag pour Logcat
     private Button loginButton;
     private EditText emailText, passwdText;
     private TextView reglinktxt;
@@ -78,7 +85,7 @@ public class LogActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    logInRequest();
+                    logInRequest(emailText.getText().toString());
             }
         });
 
@@ -104,26 +111,48 @@ public class LogActivity extends AppCompatActivity {
         RegActivityLauncher.launch(intent);
     }
 
-    private void logInRequest(){
+    private void logInRequest(String email){
         Intent intent = new Intent(this, HomeActivity.class);
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    HttpJsonService service = new HttpJsonService();
+                    final String URL_BASE = "http://10.0.2.2:3000/clients/";
+                    String url = URL_BASE + "?";
+                    //finds and fetches specific email account data
+                    if (email != null && !email.isEmpty()) url += "email=" + email;
 
-                    String email = emailText.getText().toString();
-                    String passwd = passwdText.getText().toString();
+                    OkHttpClient hclient = new OkHttpClient();
+                    Log.d(TAG, "request url :" + url);
+                    Request request = new Request.Builder().url(url).build();
+                    Response response = hclient.newCall(request).execute();
+                    ResponseBody responseBody = response.body();
 
-                    Client client = (Client) service.rechercherClient(email);
+                    if (responseBody != null) {
+                        String jsonStr = responseBody.string();
+                        Log.d(TAG, "Données reçues du serveur : " + jsonStr);
+                        ObjectMapper mapper = new ObjectMapper();
 
-                    if(client.getMdp().equals(passwd)){
-                        intent.putExtra("ID_CLIENT",client.getId());
-                        HomeActivityLauncher.launch(intent);
-                    }else {Toast.makeText(LogActivity.this,"Mauvaise Mot de passe", Toast.LENGTH_SHORT).show();}
+                        Client[] clients = mapper.readValue(jsonStr, Client[].class);
+                        if (clients.length > 0) {
+                            Client client = clients[0];
+
+                            String passwd = passwdText.getText().toString();
+
+                            if(client.getMdp().equals(passwd)){
+                                intent.putExtra("ID_CLIENT",client.getId());
+                                HomeActivityLauncher.launch(intent);
+                            }else {Toast.makeText(LogActivity.this,"Mauvaise Mot de passe", Toast.LENGTH_SHORT).show();}
+
+                        } else {
+                            runOnUiThread(() -> Toast.makeText(LogActivity.this, "Aucun utilisateur trouvé", Toast.LENGTH_SHORT).show());
+                        }
 
 
-                } catch (IOException | JSONException e) {
+                    }
+                    return;
+
+                } catch (IOException e) {
                     Log.e(TAG, "Erreur réseau", e);
                     runOnUiThread(new Runnable() {
                         @Override
