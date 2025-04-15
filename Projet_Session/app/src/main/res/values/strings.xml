@@ -20,4 +20,13 @@
     <string name="retour_historique">Retour</string>
     <string name="historique">Historique</string>
     <string name="annuler">Annuler</string>
+
+    <string-array name="voyage_types">
+        <item>Aventure</item>
+        <item>Culturel</item>
+        <item>Famille</item>
+        <item>Romantique</item>
+        <item>Plage</item>
+    </string-array>
+
 </resources>

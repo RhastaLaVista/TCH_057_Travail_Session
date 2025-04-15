@@ -1,30 +1,27 @@
 package com.example.tch_057_architecture_touristique_gr03_equipe_03.entite;
 
-import java.util.HashMap;
-
 public class Voyage {
-    private int id;
-    private String nom_voyage;
-    private String description;
-    private double prix;
-    private String destination;
-    private String image_url;
-    private int duree_jours;
-    private HashMap<String, Integer> trips;
-    private String type_de_voyage;
-    private String activites_incluses;
 
-    public Voyage(String activites_incluses, String type_de_voyage, HashMap<String, Integer> trips, int duree_jours, String image_url, String destination, double prix, String description, String nom_voyage, int id) {
-        this.activites_incluses = activites_incluses;
-        this.type_de_voyage = type_de_voyage;
-        this.trips = trips;
-        this.duree_jours = duree_jours;
-        this.image_url = image_url;
-        this.destination = destination;
-        this.prix = prix;
-        this.description = description;
-        this.nom_voyage = nom_voyage;
+    int id;
+    String nom_voyage;
+    String description;
+    int prix;
+    String destination;
+    String image_url;
+    String type_de_voyage;
+
+    public Voyage(int id, String nom_voyage, String description, int prix, String destination, String image_url, String type_de_voyage) {
         this.id = id;
+        this.nom_voyage = nom_voyage;
+        this.description = description;
+        this.prix = prix;
+        this.destination = destination;
+        this.image_url = image_url;
+        this.type_de_voyage = type_de_voyage;
+
+    }
+    public Voyage(){
+
     }
 
     public int getId() {
@@ -51,11 +48,11 @@ public class Voyage {
         this.description = description;
     }
 
-    public double getPrix() {
+    public int getPrix() {
         return prix;
     }
 
-    public void setPrix(double prix) {
+    public void setPrix(int prix) {
         this.prix = prix;
     }
 
@@ -75,35 +72,11 @@ public class Voyage {
         this.image_url = image_url;
     }
 
-    public int getDuree_jours() {
-        return duree_jours;
-    }
-
-    public void setDuree_jours(int duree_jours) {
-        this.duree_jours = duree_jours;
-    }
-
-    public HashMap<String, Integer> getTrips() {
-        return trips;
-    }
-
-    public void setTrips(HashMap<String, Integer> trips) {
-        this.trips = trips;
-    }
-
     public String getType_de_voyage() {
         return type_de_voyage;
     }
 
     public void setType_de_voyage(String type_de_voyage) {
         this.type_de_voyage = type_de_voyage;
-    }
-
-    public String getActivites_incluses() {
-        return activites_incluses;
-    }
-
-    public void setActivites_incluses(String activites_incluses) {
-        this.activites_incluses = activites_incluses;
     }
 }
