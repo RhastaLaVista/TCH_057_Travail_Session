@@ -18,8 +18,6 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.tch_057_architecture_touristique_gr03_equipe_03.entite.Client;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,6 +43,19 @@ public class RegActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_reg);
 
+        regButton = findViewById(R.id.regButton);
+
+        prenomIn = findViewById(R.id.prenomIn);
+        nomIn = findViewById(R.id.nomIn);
+        emailIn = findViewById(R.id.emailIn);
+        mdpIn = findViewById(R.id.mdpIn);
+        ageIn = findViewById(R.id.ageIn);
+        telIN = findViewById(R.id.telIn);
+        adressIn = findViewById(R.id.adressIn);
+
+        logPageLink = findViewById(R.id.logPageLink);
+
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -56,6 +67,11 @@ public class RegActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //create and send JSON snippet to JSON server
+                try {
+                    GenerateNewAccount();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
 
             }
         });
@@ -82,26 +98,25 @@ public class RegActivity extends AppCompatActivity {
     private void GenerateNewAccount() throws IOException {
         final String URL_POINT_ENTREE = "http://10.0.2.2:3000";
         OkHttpClient okHttpClient = new OkHttpClient();
-        MediaType JSON = MediaType.parse("application/json; chartset=utf-8");
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         String prenom = prenomIn.getText().toString().trim();
-        String nom = prenomIn.getText().toString().trim();
-        String email = prenomIn.getText().toString().trim();
-        String telephone = prenomIn.getText().toString().trim();
-        int age = 0;
-        String date = prenomIn.getText().toString().trim();
-        String mdp = prenomIn.getText().toString().trim();
+        String nom = nomIn.getText().toString().trim();
+        String email = emailIn.getText().toString().trim();
+        String telephone = telIN.getText().toString().trim();
+        int age = Integer.parseInt(ageIn.getText().toString());
+        String mdp = prenomIn.getText().toString();//no need to trim this.
+        String adresse = adressIn.getText().toString();
 
-        //prenomIn,nomIn ,emailIn ,telIN ,dateIn ,adressIn, mdpIn;
 
         JSONObject obj = new JSONObject();
         try{
-            obj.put("nom","ph");
-            obj.put("prenom","ph");
-            obj.put("email","p@h");
-            obj.put("mdp","1hp2");
-            obj.put("age",1);
-            obj.put("telephone","1hp2");
-            obj.put("adresse","phAvenue");
+            obj.put("nom",prenom);
+            obj.put("prenom",nom);
+            obj.put("email",email);
+            obj.put("mdp",mdp);
+            obj.put("age",age);
+            obj.put("telephone",telephone);
+            obj.put("adresse",adresse);
         } catch (RuntimeException | JSONException e){
             throw new RuntimeException(e);
         }
@@ -113,8 +128,9 @@ public class RegActivity extends AppCompatActivity {
                 .post(corpsRequete)
                 .build();
         Response response = okHttpClient.newCall(request).execute();
-        if (response.code() == 201) System.out.println("Compte inséré avec succès");
-        else System.out.println("Compte non inséré");
+        if (response.code() == 201){
+            System.out.println("Compte inséré avec succès");
+        }else System.out.println("Compte non inséré");
     }
 
 
