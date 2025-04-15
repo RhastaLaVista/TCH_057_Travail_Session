@@ -51,7 +51,7 @@ public class HomeActivity extends AppCompatActivity {
     private VoyageAdapter voyageAdapter;
     private List<Voyage> voyageList = new ArrayList<>();
     private HttpJsonService httpService = new HttpJsonService();
-    EditText editDestination;
+    SearchView editDestination;
     TextView  textSelectedDate;
     Spinner spinnerTypeVoyage;
     Button buttonDate;
@@ -73,6 +73,18 @@ public class HomeActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerVoyages);
         editDestination = findViewById(R.id.editDestination);
+        editDestination.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filteredList(newText);
+                return false;
+            }
+        });
+
         spinnerTypeVoyage = findViewById(R.id.spinnerTypeVoyage);
         buttonDate = findViewById(R.id.buttonDate);
         textSelectedDate = findViewById(R.id.textSelectedDate);
@@ -167,7 +179,15 @@ public class HomeActivity extends AppCompatActivity {
         );
 
     }
-
+    private void filteredList(String text){
+        List<Voyage> filteredList = new ArrayList<>();
+        for(Voyage voyage:voyageList){
+            if(voyage.getNom_voyage().toLowerCase().contains(text.toLowerCase())){
+                filteredList.add(voyage);
+            }
+        }
+        voyageAdapter.updateVoyages(filteredList);
+    }
 
     private void fetchVoyages() {
         new Thread(() -> {
