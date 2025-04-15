@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
@@ -38,14 +39,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import android.widget.AdapterView;
 
 public class HomeActivity extends AppCompatActivity {
     private static final String URL_POINT_ENTREE = "http://10.0.2.2:3000"; // Adresse serveur pour l'émulateur
     private static final String TAG = "MainActivity"; // Tag pour Logcat
     SeekBar seekBar;
     TextView budgetText;
-
     private int idClient;
+    private int budget;
     private Intent intent = getIntent();
     private RecyclerView recyclerView;
     private VoyageAdapter voyageAdapter;
@@ -55,6 +57,7 @@ public class HomeActivity extends AppCompatActivity {
     TextView  textSelectedDate;
     Spinner spinnerTypeVoyage;
     Button buttonDate;
+    String currentText="";
     private ActivityResultLauncher<Intent> detailActivityLauncher;
     private ActivityResultLauncher<Intent> logActivityLauncher;
 
@@ -80,7 +83,8 @@ public class HomeActivity extends AppCompatActivity {
             }
             @Override
             public boolean onQueryTextChange(String newText) {
-                filteredList(newText);
+                currentText=newText;
+                filteredList(currentText,budget,spinnerTypeVoyage.getSelectedItem().toString());
                 return false;
             }
         });
@@ -107,6 +111,8 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 budgetText.setText("Budget: " + progress + "$");
+                budget=progress;
+                filteredList(currentText,budget,spinnerTypeVoyage.getSelectedItem().toString());
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {}
@@ -118,6 +124,7 @@ public class HomeActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.voyage_types, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerTypeVoyage.setAdapter(adapter);
+
 
 
 //        String[] dates = intent.getStringArrayExtra("dates");
@@ -179,11 +186,13 @@ public class HomeActivity extends AppCompatActivity {
         );
 
     }
-    private void filteredList(String text){
+    private void filteredList(String text, int budget, String type){
         List<Voyage> filteredList = new ArrayList<>();
         for(Voyage voyage:voyageList){
-            if(voyage.getNom_voyage().toLowerCase().contains(text.toLowerCase())){
-                filteredList.add(voyage);
+            if(voyage.getNom_voyage().toLowerCase().contains(text.toLowerCase())&&budget>=voyage.getPrix()){
+                if(type.equals(voyage.getType_de_voyage())||type.equals("All")) {
+                    filteredList.add(voyage);
+                }
             }
         }
         voyageAdapter.updateVoyages(filteredList);
@@ -206,4 +215,5 @@ public class HomeActivity extends AppCompatActivity {
             }
         }).start();
     }
+
 }

@@ -22,6 +22,7 @@
     <string name="annuler">Annuler</string>
 
     <string-array name="voyage_types">
+        <item>All</item>
         <item>Aventure</item>
         <item>Culturel</item>
         <item>Famille</item>
