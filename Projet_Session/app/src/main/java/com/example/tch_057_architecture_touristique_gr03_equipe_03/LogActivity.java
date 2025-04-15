@@ -56,6 +56,7 @@ public class LogActivity extends AppCompatActivity {
         passwdText = findViewById(R.id.passText);
         reglinktxt = findViewById(R.id.regLinkText);
 
+
         RegActivityLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
