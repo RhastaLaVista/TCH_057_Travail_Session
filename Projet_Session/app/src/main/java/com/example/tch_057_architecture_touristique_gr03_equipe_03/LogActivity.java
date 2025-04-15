@@ -19,13 +19,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.tch_057_architecture_touristique_gr03_equipe_03.daos.HttpJsonService;
 import com.example.tch_057_architecture_touristique_gr03_equipe_03.entite.Client;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.Arrays;
 
 import okhttp3.OkHttpClient;
@@ -111,56 +111,43 @@ public class LogActivity extends AppCompatActivity {
         RegActivityLauncher.launch(intent);
     }
 
-    private void logInRequest(String email){
+    private void logInRequest(String emailInput) {
         Intent intent = new Intent(this, HomeActivity.class);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    final String URL_BASE = "http://10.0.2.2:3000/clients/";
-                    String url = URL_BASE + "?";
-                    //finds and fetches specific email account data
-                    if (email != null && !email.isEmpty()) url += "email=" + email;
 
-                    OkHttpClient hclient = new OkHttpClient();
-                    Log.d(TAG, "request url :" + url);
-                    Request request = new Request.Builder().url(url).build();
-                    Response response = hclient.newCall(request).execute();
-                    ResponseBody responseBody = response.body();
+        new Thread(() -> {
+            try {
+                String emailEncoded = URLEncoder.encode(emailInput, "UTF-8");
+                final String URL = "http://10.0.2.2:3000/clients?email=" + emailEncoded;
 
-                    if (responseBody != null) {
-                        String jsonStr = responseBody.string();
-                        Log.d(TAG, "Données reçues du serveur : " + jsonStr);
-                        ObjectMapper mapper = new ObjectMapper();
+                OkHttpClient hclient = new OkHttpClient();
+                Request request = new Request.Builder().url(URL).build();
+                Response response = hclient.newCall(request).execute();
+                ResponseBody responseBody = response.body();
 
-                        Client[] clients = mapper.readValue(jsonStr, Client[].class);
-                        if (clients.length > 0) {
-                            Client client = clients[0];
+                if (responseBody != null) {
+                    String jsonStr = responseBody.string();
+                    Log.d(TAG, "Server Output : " + jsonStr);
+                    ObjectMapper mapper = new ObjectMapper();
+                    Client[] tarclient = mapper.readValue(jsonStr, Client[].class);
+                    Log.d(TAG, "Target Client :" + Arrays.toString(tarclient));
 
-                            String passwd = passwdText.getText().toString();
-
-                            if(client.getMdp().equals(passwd)){
-                                intent.putExtra("ID_CLIENT",client.getId());
-                                HomeActivityLauncher.launch(intent);
-                            }else {Toast.makeText(LogActivity.this,"Mauvaise Mot de passe", Toast.LENGTH_SHORT).show();}
-
-                        } else {
-                            runOnUiThread(() -> Toast.makeText(LogActivity.this, "Aucun utilisateur trouvé", Toast.LENGTH_SHORT).show());
-                        }
-
-
+                    if (tarclient.length == 0) {
+                        runOnUiThread(() -> Toast.makeText(LogActivity.this, "User does not Exist", Toast.LENGTH_SHORT).show());
+                        return;
                     }
-                    return;
+                    Client client = tarclient[0]; // il ne peut qu'avoir une courriel
 
-                } catch (IOException e) {
-                    Log.e(TAG, "Erreur réseau", e);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(LogActivity.this, "Erreur de connexion", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    String passwdInput = passwdText.getText().toString();
+                    if (client.getMdp().equals(passwdInput)) {
+                        intent.putExtra("ID_CLIENT", client.getId());
+                        runOnUiThread(() -> HomeActivityLauncher.launch(intent));
+                    } else {
+                        runOnUiThread(() -> Toast.makeText(LogActivity.this, "Wrong Password", Toast.LENGTH_SHORT).show());
+                    }
                 }
+            } catch (IOException e) {
+                Log.e(TAG, "Network error", e);
+                runOnUiThread(() -> Toast.makeText(LogActivity.this, "Connection Error", Toast.LENGTH_SHORT).show());
             }
         }).start();
     }
