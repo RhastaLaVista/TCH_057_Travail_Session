@@ -9,8 +9,16 @@ public class Voyage {
     String destination;
     String image_url;
     String type_de_voyage;
+    int duree_jours;
+    String[] date;
+    int[] nb_places;
+    String activites;
 
-    public Voyage(int id, String nom_voyage, String description, int prix, String destination, String image_url, String type_de_voyage) {
+    public Voyage(){
+
+    }
+
+    public Voyage(int id, String nom_voyage, String description, int prix, String destination, String image_url, String type_de_voyage, int duree_jours, String[] date, int[] nb_places, String activites) {
         this.id = id;
         this.nom_voyage = nom_voyage;
         this.description = description;
@@ -18,10 +26,10 @@ public class Voyage {
         this.destination = destination;
         this.image_url = image_url;
         this.type_de_voyage = type_de_voyage;
-
-    }
-    public Voyage(){
-
+        this.duree_jours = duree_jours;
+        this.date = date;
+        this.nb_places = nb_places;
+        this.activites = activites;
     }
 
     public int getId() {
@@ -78,5 +86,37 @@ public class Voyage {
 
     public void setType_de_voyage(String type_de_voyage) {
         this.type_de_voyage = type_de_voyage;
+    }
+
+    public int getDuree_jours() {
+        return duree_jours;
+    }
+
+    public void setDuree_jours(int duree_jours) {
+        this.duree_jours = duree_jours;
+    }
+
+    public String[] getDate() {
+        return date;
+    }
+
+    public void setDate(String[] date) {
+        this.date = date;
+    }
+
+    public int[] getNb_places() {
+        return nb_places;
+    }
+
+    public void setNb_places(int[] nb_places) {
+        this.nb_places = nb_places;
+    }
+
+    public String getActivites() {
+        return activites;
+    }
+
+    public void setActivites(String activites) {
+        this.activites = activites;
     }
 }

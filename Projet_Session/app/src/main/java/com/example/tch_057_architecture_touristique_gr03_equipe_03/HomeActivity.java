@@ -74,8 +74,15 @@ public class HomeActivity extends AppCompatActivity {
         textSelectedDate = findViewById(R.id.textSelectedDate);
 
         seekBar = (SeekBar) findViewById(R.id.seekBarBudget);
+
         budgetText = (TextView) findViewById(R.id.textBudget);
 
+        Button buttonDisconnect = findViewById(R.id.buttonDisconnect);
+        buttonDisconnect.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, LogActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        });
 
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -96,9 +103,8 @@ public class HomeActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerTypeVoyage.setAdapter(adapter);
 
-//        tv_activite.setText("Activités : " + intent.getStringExtra("activite"));
 
-//        tv_duree.setText("Durée : " + intent.getIntExtra("duree", 0));
+//
 //
 //        String[] dates = intent.getStringArrayExtra("dates");
 //        int[] places = intent.getIntArrayExtra("places");
@@ -106,16 +112,22 @@ public class HomeActivity extends AppCompatActivity {
 
         voyageAdapter = new VoyageAdapter(voyageList, voyage -> {
             Intent intent = new Intent(HomeActivity.this, DetailActivity.class);
+            
             intent.putExtra("client",idClient);
             intent.putExtra("id", voyage.getId());
             intent.putExtra("titre", voyage.getNom_voyage());
             intent.putExtra("description", voyage.getDescription());
             intent.putExtra("destination",voyage.getDestination());
-
             intent.putExtra("prixPersonne", voyage.getPrix());
+            intent.putExtra("duree",voyage.getDuree_jours());
 
+            intent.putExtra("dates",voyage.getDate());
+            intent.putExtra("places",voyage.getNb_places());
+
+            intent.putExtra("activite",voyage.getActivites());
             intent.putExtra("image", voyage.getImage_url());
             intent.putExtra("type", voyage.getType_de_voyage());
+
             startActivity(intent);
         });
 
@@ -130,7 +142,7 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    
+
 
     private void fetchVoyages() {
         new Thread(() -> {
